@@ -84,7 +84,7 @@ NOTES:
 
 import os, sys, re, time, urllib2, dbus
 
-org_mpris_re = re.compile('^org\.mpris\.([^.]+)$')
+org_mpris_re = re.compile('^org\.mpris\.MediaPlayer2\.([^.]+)$')
 
 class BadUserInput(Exception):
     pass
@@ -243,18 +243,17 @@ class MPRISRemote(object):
 
         if requested_player_name == '*':
             self.player_name = org_mpris_re.match(self.players_running[0]).group(1)
+            print "Sending commands to %s" % self.player_name
         else:
-            if 'org.mpris.%s' % requested_player_name not in self.players_running:
+            if 'org.mpris.MediaPlayer2.%s' % requested_player_name not in self.players_running:
                 raise RequestedPlayerNotRunning()
             self.player_name = requested_player_name
 
-        root_obj      = self.bus.get_object('org.mpris.%s' % self.player_name, '/')
-        player_obj    = self.bus.get_object('org.mpris.%s' % self.player_name, '/Player')
-        tracklist_obj = self.bus.get_object('org.mpris.%s' % self.player_name, '/TrackList')
+        root_obj      = self.bus.get_object('org.mpris.MediaPlayer2.%s' % self.player_name, '/org/mpris/MediaPlayer2')
 
-        self.root      = dbus.Interface(root_obj,      dbus_interface='org.freedesktop.MediaPlayer')
-        self.player    = dbus.Interface(player_obj,    dbus_interface='org.freedesktop.MediaPlayer')
-        self.tracklist = dbus.Interface(tracklist_obj, dbus_interface='org.freedesktop.MediaPlayer')
+        self.root      = dbus.Interface(root_obj,      dbus_interface='org.mpris.MediaPlayer2')
+        self.player    = dbus.Interface(root_obj,    dbus_interface='org.mpris.MediaPlayer2.Player')
+        self.tracklist = dbus.Interface(root_obj, dbus_interface='org.mpris.MediaPlayer2')
 
         try:
             self.tracklist_len = self.tracklist.GetLength()
