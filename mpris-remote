@@ -303,6 +303,10 @@ class MPRISRemote(object):
     def pause(self):
         self.player.Pause()
 
+    @explain_numargs(0)
+    def playpause(self):
+        self.player.PlayPause()
+
     @explain_numargs(0, 1)
     @explain_argtype(0, is_zero_to_100, optional=True)
     def volume(self, vol=None):
