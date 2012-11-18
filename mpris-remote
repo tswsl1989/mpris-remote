@@ -563,7 +563,7 @@ if __name__ == '__main__':
     except RequestedPlayerNotRunning, e:
         print >>sys.stderr, 'Player "%s" is not running, but the following players were found:' % player_name
         for n in remote.players_running:
-            print >>sys.stderr, "    %s" % n.replace("org.mpris.", "")
+            print >>sys.stderr, "    %s" % n.replace("org.mpris.MediaPlayer2.", "")
         print >>sys.stderr, 'If you meant to use one of those players, ' \
                             'set $MPRIS_REMOTE_PLAYER accordingly.'
         raise SystemExit(1)
