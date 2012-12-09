@@ -281,11 +281,11 @@ class MPRISRemote(object):
 
     @explain_numargs(0)
     def prev(self):
-        self.player.Prev()
+        self.player.Previous()
 
     @explain_numargs(0)
     def previous(self):
-        self.player.Prev()
+        self.player.Previous()
 
     @explain_numargs(0)
     def next(self):
